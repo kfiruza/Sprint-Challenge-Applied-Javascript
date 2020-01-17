@@ -47,6 +47,7 @@ function articleComp(response){
        authorSpan = document.createElement("span");
 
  //  // set class names
+ 
  cardDiv.classList.add("card");
  headlineDiv.classList.add("headline");
  authorDiv.classList.add("author");
