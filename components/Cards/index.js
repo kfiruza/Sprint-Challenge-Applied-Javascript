@@ -18,43 +18,49 @@
 //
 // Create a card for each of the articles and add the card to the DOM.
 
- axios.get('https://lambda-times-backend.herokuapp.com/articles')
- .then(response => {
- //console.log(`THEN IS WORKING`, dataObj.data);
- const articles = Object.values(response.data.articles);
- console.log(articles);
+const articleCont = document.querySelector(".cards-container");
 
- articles.forEach(array => {
-  articles.forEach(article => {
-  const newCard = articleCreator(article);
-   articleEntryPoint.appendChild(newCard);
- })
-})      
- })
- function articleCreator(article){
-    const newCard=document.createElement('div'),
-          newHeadDiv =document.createElement('div'),
-          newAutorDiv =document.createElement('div'),
-          imgDiv = document.createElement('div'),
-          autorImg = document.createElement('img'),
-          autorSpan = document.createElement('span');
+
+axios.get("https://lambda-times-backend.herokuapp.com/articles")
+.then(dataObj =>{
+    console.log(`THEN IS WORKING`, dataObj.data);
+    
+Object.values(dataObj.data.articles)
+.forEach(articles =>{               
+Object.values(articles).forEach(article => {
+const newArticle = articleComp(article);
+ articleCont.appendChild(newArticle);
+ })      
+    });  
+})
+.catch (error => {
+    console.log(`CATCH IS WORKING`, error)
+});
+
+function articleComp(response){
+    //create element
+    const cardDiv = document.createElement("div"),
+     headlineDiv = document.createElement("div"),
+       authorDiv = document.createElement("div"),
+        imageDiv = document.createElement("div"),
+           image = document.createElement("img"),
+       authorSpan = document.createElement("span");
 
  //  // set class names
-          newCard.classList.add('card');
-          newHeadDiv.classList.add('headline');
-          newAutorDiv.classList.add('autor');
-          imgDiv.classList.add('img-container');
+ cardDiv.classList.add("card");
+ headlineDiv.classList.add("headline");
+ authorDiv.classList.add("author");
+ imageDiv.classList.add("img-container");
 
-          newCard.appendChild(newHeadDiv);
-          newCard.appendChild(newAutorDiv);
-          autorImg.appendChild(imgDiv);
-          newAutorDiv.appendChild(autorSpan);
+ //append
+ cardDiv.append(headlineDiv, authorDiv);
+ authorDiv.append(imageDiv, authorSpan);
+ imageDiv.append(image);
+ 
+ //content
+ headlineDiv.textContent = response.headline;
+ image.src = response.authorPhoto;
+ authorSpan.textContent = response.authorName;
 
- // // set text content
-          newHeadDiv.textContent= article.headline;
-          autorImg.src = article.autorPhoto;
-          autorSpan.textContent = article.autorName;
-
-          return newCard;
-        }
-        const articleEntryPoint =document.querySelector('.cards-container');
+ return cardDiv
+}

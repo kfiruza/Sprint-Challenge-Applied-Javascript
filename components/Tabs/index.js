@@ -19,7 +19,7 @@ function tabCreator(topic) {
     const newTab = document.createElement('div');
 
     newTab.classList.add('tab');
-    newTab.textContent ='topic here';
+    newTab.textContent = topic;
     return newTab;
 }
 const tabEntryPoint = document.querySelector('.topics');
